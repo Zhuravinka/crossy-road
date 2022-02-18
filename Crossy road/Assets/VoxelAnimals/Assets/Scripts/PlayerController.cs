@@ -5,47 +5,61 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
 
+   // [SerializeField] TerrainGenerator terrainGenerator;
+
     public float movementSpeed = 3;
     public float jumpForce = 300;
     public float timeBeforeNextJump = 1.2f;
-    private float canJump = 0f;
-    Animator anim;
-    Rigidbody rb;
-    
+    private bool canMove = true;
+
+    Animator animator;
+    CharacterController character;
+    int gridSize = 2;
+    Vector3 gravityForce = new Vector3(0, -0.5f, 0);
+    //todo get the grid size properly from the terrain generator
+
     void Start()
     {
-        anim = GetComponent<Animator>();
-        rb = GetComponent<Rigidbody>();
+       
+        animator = GetComponent<Animator>();
+        character = GetComponent<CharacterController>();
     }
 
     void Update()
     {
         ControllPlayer();
+        character.Move(gravityForce);
     }
 
     void ControllPlayer()
     {
-        float moveHorizontal = Input.GetAxisRaw("Horizontal");
-        float moveVertical = Input.GetAxisRaw("Vertical");
-
-        Vector3 movement = new Vector3(moveHorizontal, 0.0f, moveVertical);
-
-        if (movement != Vector3.zero)
+        
+        
+        if (Input.GetKeyDown(KeyCode.W) && canMove)
         {
-            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(movement), 0.15f);
-            anim.SetInteger("Walk", 1);
-        }
-        else {
-            anim.SetInteger("Walk", 0);
-        }
 
-        transform.Translate(movement * movementSpeed * Time.deltaTime, Space.World);
+            MoveCharacter(new Vector3(1,0,0));
 
-        if (Input.GetButtonDown("Jump") && Time.time > canJump)
+        }
+        else if (Input.GetKeyDown(KeyCode.S) && canMove)
         {
-                rb.AddForce(0, jumpForce, 0);
-                canJump = Time.time + timeBeforeNextJump;
-                anim.SetTrigger("jump");
+            MoveCharacter(new Vector3(-1, 0, 0) );   
         }
+        else if (Input.GetKeyDown(KeyCode.A) && canMove)
+        {
+            MoveCharacter(new Vector3(0, 0, 1));
+        }
+        else if (Input.GetKeyDown(KeyCode.D) && canMove)
+        {
+            MoveCharacter(new Vector3(0, 0, -1));
+        }
+
+    }
+
+    private void MoveCharacter(Vector3 direction)
+    {
+        animator.SetTrigger("Jump");
+        character.Move(direction * gridSize);//todo make with lerp and +=
+       
     }
 }
