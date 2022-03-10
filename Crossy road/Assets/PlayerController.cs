@@ -15,7 +15,7 @@ public class PlayerController : MonoBehaviour
     Animator animator;
     CharacterController character;
     int gridSize = 2;
-    Vector3 gravityForce = new Vector3(0, -0.5f, 0);
+    Vector3 gravityForce = new Vector3(0, -0.05f, 0);
     //todo get the grid size properly from the terrain generator
 
     void Start()
@@ -59,6 +59,7 @@ public class PlayerController : MonoBehaviour
     private void MoveCharacter(Vector3 direction)
     {
         animator.SetTrigger("Jump");
+       // if()
         character.Move(direction * gridSize);//todo make with lerp and +=
        
     }
