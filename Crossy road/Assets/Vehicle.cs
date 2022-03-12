@@ -4,11 +4,13 @@ using UnityEngine;
 
 public abstract class Vehicle : MonoBehaviour
 {
-    public  void OnCollisionEnter(Collision collision)
+    public void OnTriggerEnter(Collider collider)
     {
-        if (collision.collider.GetComponent<PlayerController>())
-        {
-            Destroy(collision.collider.gameObject);
-        }
+       // if (PlayerController.isDead)
+      //  {
+       //     return;
+       // }
+
+       // StartCoroutine(collider.transform.GetComponent<PlayerController>().Die());
     }
 }

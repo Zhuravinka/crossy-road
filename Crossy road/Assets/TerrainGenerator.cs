@@ -14,8 +14,6 @@ public class TerrainGenerator : MonoBehaviour
 
     Vector3Int emptyPosition;
 
-
-
     public int GetGridSize()
     {
         return gridSize;

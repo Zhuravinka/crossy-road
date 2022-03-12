@@ -9,7 +9,7 @@ public class Car : Vehicle
 
     void Update()
     {
-        transform.Translate(new Vector3(0, 0, speed * Time.deltaTime));
+        transform.Translate(Vector3.forward * speed * Time.deltaTime, Space.Self);
     }
 
 
