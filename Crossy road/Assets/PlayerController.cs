@@ -6,10 +6,8 @@ public class PlayerController : MonoBehaviour
 {
 
    // [SerializeField] TerrainGenerator terrainGenerator;
-
-    public float movementSpeed = 3;
-    public float jumpForce = 300;
-    public float timeBeforeNextJump = 1.2f;
+   
+   public float timeBeforeNextJump = 1.2f;
     private bool canMove = true;
 
     Animator animator;
@@ -60,7 +58,7 @@ public class PlayerController : MonoBehaviour
     {
         animator.SetTrigger("Jump");
        // if()
-        character.Move(direction * gridSize);//todo make with lerp and +=
+        character.Move(direction * gridSize); // TODO make with lerp and +=
        
     }
 }

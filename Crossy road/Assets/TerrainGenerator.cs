@@ -1,55 +1,63 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Experimental.TerrainAPI;
 
 public class TerrainGenerator : MonoBehaviour
 {
-    [SerializeField] List<GameObject> terrainSamples = new List<GameObject>();
+    [SerializeField] List<Row> rowSamples = new List<Row>();
     [SerializeField] List<GameObject> obstacleSamples = new List<GameObject>();
     [SerializeField] Transform parent;
     [SerializeField] PlayerController player;
-    [SerializeField] Row lastRow;
-    const int gridSize = 2;//remake
-    const int spawnDistance = 15;
+    [SerializeField] GameObject lastRow;
+    const int GridSize = 2;//remake
+    const int SpawnDistance = 15;
 
-    Vector3Int emptyPosition;
+    Vector3Int _emptyPosition;
 
 
 
     public int GetGridSize()
     {
-        return gridSize;
+        return GridSize;
     }
 
   
     void Start()
     {
-        emptyPosition = Vector3Int.FloorToInt(lastRow.transform.position/gridSize) + new Vector3Int(1,0,0);
-        for (; emptyPosition.x < 15; emptyPosition.x++)
+        _emptyPosition = Vector3Int.FloorToInt(lastRow.transform.position/GridSize) + new Vector3Int(1,0,0);
+        for (int i=0; i < 15; i++)
         {
-            PlaceTerrain(terrainSamples[Random.Range(0, 3)], emptyPosition);
+            SpawnTerrain();
         }
         
     }
     void Update()
     {
-        if (Vector3.Distance(player.transform.position/gridSize, emptyPosition) < spawnDistance)
+        if (Vector3.Distance(player.transform.position/GridSize, _emptyPosition) < SpawnDistance)
         {
-            PlaceTerrain(terrainSamples[Random.Range(0, 3)], emptyPosition);
-            emptyPosition.x++;
+            SpawnTerrain();
+            
         }
     }
-    public void PlaceTerrain(GameObject terrainSample, Vector3Int position)
+    public void SpawnTerrain()
     {
-        var newRow = Instantiate(terrainSample, position * gridSize, Quaternion.identity);
-        newRow.transform.parent = parent;
-        if(terrainSample.name == "Grass")
+        int whichTerrain = Random.Range(0, rowSamples.Count);
+        int terrainInSuccesion = Random.Range(1, rowSamples[whichTerrain].maxInSuccession);
+        for (int i = 0; i < terrainInSuccesion; i++)
         {
-            for (int i = 0; i < Random.Range(0, 5); i++)
+            GameObject newRow = Instantiate(rowSamples[whichTerrain].terrain[Random.Range(0,rowSamples[whichTerrain].terrain.Count)], _emptyPosition * GridSize, Quaternion.identity);
+            newRow.transform.parent = parent;
+            if(newRow.name == "Grass")
             {
-                PlaceObstacle(obstacleSamples[Random.Range(0, 2)], position);
+                for (int j = 0; j < Random.Range(0, 5); j++)
+                {
+                    PlaceObstacle(obstacleSamples[Random.Range(0, obstacleSamples.Count)], _emptyPosition);
+                }
             }
+            _emptyPosition.x++;
         }
+       
 
 
     }
@@ -57,7 +65,7 @@ public class TerrainGenerator : MonoBehaviour
     public void PlaceObstacle(GameObject obstacleSample, Vector3Int position)
     {
         Vector3Int positionInRow = new Vector3Int(position.x, 0, Random.Range(-5, 5));
-        var newObstacle = Instantiate(obstacleSample, positionInRow * gridSize, Quaternion.identity);
+        var newObstacle = Instantiate(obstacleSample, positionInRow * GridSize, Quaternion.identity);
         newObstacle.transform.parent = parent;
     }
 
