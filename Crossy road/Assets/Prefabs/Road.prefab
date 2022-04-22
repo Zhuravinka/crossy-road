@@ -98,10 +98,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3a1150a3245de747a4beb8c59446843, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  vehiclePrefab: {fileID: 1954760050, guid: 8da2fa4410a3c384badf2e8d8d2f56f3, type: 3}
+  objectsPrefabs:
+  - {fileID: 1394382416345726, guid: 8da2fa4410a3c384badf2e8d8d2f56f3, type: 3}
+  - {fileID: 8764098361177811120, guid: 6be3ce6ce4417eb449c408178746c9e1, type: 3}
   _minSpawnTime: 3
   _maxSpawnTime: 5
   spawnPosition: {fileID: 1340805964223066732}
+  isRight: 0
 --- !u!1001 &182467019660561200
 PrefabInstance:
   m_ObjectHideFlags: 0
