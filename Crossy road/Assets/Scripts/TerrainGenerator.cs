@@ -34,10 +34,10 @@ public class TerrainGenerator : MonoBehaviour
     }
     void Update()
     {
+       
         if (Vector3.Distance(player.transform.position/GridSize, _emptyPosition) < SpawnDistance)
         {
             SpawnTerrain();
-            
         }
     }
     public void SpawnTerrain()

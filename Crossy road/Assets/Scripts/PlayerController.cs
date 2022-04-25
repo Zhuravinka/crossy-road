@@ -14,7 +14,7 @@ public class PlayerController : MonoBehaviour
     Animator _animator;
     CharacterController character;
     int gridSize = 2;
-    Vector3 gravityForce = new Vector3(0, -0.05f, 0);
+    Vector3 gravityForce = new Vector3(0, -1f, 0);
 
     private static readonly int IsDead = Animator.StringToHash("isDead");
 
@@ -40,6 +40,7 @@ public class PlayerController : MonoBehaviour
             ControllPlayer();
             character.Move(gravityForce);
         }
+
     }
 
     void ControllPlayer()
@@ -77,14 +78,7 @@ public class PlayerController : MonoBehaviour
     {
         canMove = false;
         _animator.SetBool(IsDead, true);
-        StartCoroutine(DestroyAfterDelay(2f));
-       
     }
-
-    IEnumerator DestroyAfterDelay(float seconds)
-    {
-        yield return new WaitForSeconds(seconds);
-        Destroy(this);
-    }
+    
     
 }
