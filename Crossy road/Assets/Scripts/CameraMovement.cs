@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using UnityEngine;
 
 public class CameraMovement : MonoBehaviour
@@ -18,11 +19,12 @@ public class CameraMovement : MonoBehaviour
     {
         Vector3 movement = new Vector3(cameraSpeed * Time.deltaTime, 0, 0);
         transform.position += movement;
-        Vector3 desiredPosition = player.position + cameraOffset;
-        ;
+  
         if (transform.position.x < player.position.x - cameraMovementThreshold)
         {
-            transform.position = Vector3.Lerp(transform.position, player.position + cameraOffset, returnSpeed * Time.deltaTime);
+            Vector3 desiredPosition = player.position + cameraOffset;
+          // desiredPosition.z = Mathf.Clamp(transform.position.z, 5, -3);
+          transform.position = Vector3.Lerp(transform.position, desiredPosition, returnSpeed * Time.deltaTime);
         }
     }
 }

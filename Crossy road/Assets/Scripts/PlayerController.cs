@@ -79,6 +79,12 @@ public class PlayerController : MonoBehaviour
         canMove = false;
         _animator.SetBool(IsDead, true);
     }
-    
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(collision.collider.GetComponent<MovingObject>())
+        {
+            transform.parent = collision.collider.transform;
+        }
+    }
     
 }
