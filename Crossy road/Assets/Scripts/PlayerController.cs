@@ -12,9 +12,8 @@ public class PlayerController : MonoBehaviour
     public bool canMove = true;
 
     Animator _animator;
-    CharacterController character;
+    Rigidbody character;
     int gridSize = 2;
-    Vector3 gravityForce = new Vector3(0, -1f, 0);
 
     private static readonly int IsDead = Animator.StringToHash("isDead");
 
@@ -30,7 +29,7 @@ public class PlayerController : MonoBehaviour
     {
        
         _animator = GetComponent<Animator>();
-        character = GetComponent<CharacterController>();
+        character = GetComponent<Rigidbody>();
     }
 
     void Update()
@@ -38,7 +37,6 @@ public class PlayerController : MonoBehaviour
         if (canMove)
         {
             ControllPlayer();
-            character.Move(gravityForce);
         }
 
     }
@@ -71,7 +69,7 @@ public class PlayerController : MonoBehaviour
     private void MoveCharacter(Vector3 direction)
     {
         _animator.SetTrigger(Jump);
-        character.Move(direction * gridSize); // TODO make with lerp and +=
+        character.transform.position += direction * gridSize; // TODO make with lerp and +=
     }
 
     private void PlayerDeath()
@@ -84,6 +82,13 @@ public class PlayerController : MonoBehaviour
         if(collision.collider.GetComponent<MovingObject>())
         {
             transform.parent = collision.collider.transform;
+        }
+    }
+    private void OnCollisionExit(Collision collision)
+    {
+        if(collision.collider.GetComponent<MovingObject>())
+        {
+            transform.parent = null;
         }
     }
     

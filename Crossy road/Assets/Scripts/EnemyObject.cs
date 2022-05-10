@@ -5,11 +5,12 @@ using UnityEngine;
 
 public class EnemyObject : MonoBehaviour
 {
-    public void OnTriggerEnter(Collider other)
+    public void OnCollisionEnter(Collision collision)
     {
-        if (other.TryGetComponent(out PlayerHealth health) )
+        if (collision.collider.TryGetComponent(out PlayerHealth health) )
         {
             health.TakeDamage(1);
         }
     }
+
 }
